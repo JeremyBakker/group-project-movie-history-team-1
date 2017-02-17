@@ -83,20 +83,20 @@ $("#logout").click(()=>{
 This function will serve to filter the movies on the visitor page.
 */
 
-$('.movie-filters').change(function(event) {
-	let targetVal = $(event.target).val();
-	switch (targetVal) {
-		case "year":
-			console.log(targetVal);
-			break;
-		case "type": 
-			console.log(targetVal);
-			break;
-		case "title":
-			console.log(targetVal);
-			break;
-	}
-});
+// $('.movie-filters').change(function(event) {
+// 	let targetVal = $(event.target).val();
+// 	switch (targetVal) {
+// 		case "year":
+// 			console.log(targetVal);
+// 			break;
+// 		case "type": 
+// 			console.log(targetVal);
+// 			break;
+// 		case "title":
+// 			console.log(targetVal);
+// 			break;
+// 	}
+// });
 
 
 
@@ -143,6 +143,20 @@ $('.btn-group').click(function(event) {
 
 $("#slider").change((event)=>{
 	console.log($("#slider").val()); //this line will be replaced with a function that filters movies by rating
+	// console.log("user", movie.user);
+	readFirebase.getMovies(createUser.getUser()).then((movieData)=>{
+		let movieArray = [];
+		console.log("movieData in slider", movieData);
+		for (let movies in movieData) {
+			console.log("movieData[movies]", movieData[movies]);
+			console.log("movieData[movies].rating", movieData[movies].rating);
+			if (movieData[movies].rating >= $("#slider").val()) {
+				movieArray.push(movieData[movies]);
+			}
+		}
+		console.log("Movie Array sent to Print", movieArray);
+		printer.printCards(movieArray);
+	});
 });
 
 /* 
@@ -195,6 +209,7 @@ function clickRegister() {
 
 		console.log('movieTarget:', movieTarget);
 		updateUser.addMovie(movieTarget[0]);
+		printer.rateMovie();
 	});
 }
 
