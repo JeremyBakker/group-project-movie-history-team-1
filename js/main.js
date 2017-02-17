@@ -45,13 +45,11 @@ let config = require('./firebase-js/configFirebase.js'),
 /*==================LOGIN=====================*/
 /*============================================*/
 
- //login
 $("#login").click(()=>{
 	console.log('you clicked login');
 	createUser.logInGoogle();  
 });
 
-//logout
 $("#logout").click(()=>{
 	console.log('you clicked logout');
 	createUser.logOut();
@@ -119,7 +117,9 @@ Function that filters the user page. The filters include:
 */
 
 $('.btn-group').click(function(event) {
+	let currentUser = createUser.getUser();
 	let buttonValue = $(event.target).val();
+	let movieDataArray = [];
 	$(".card").addClass("hidden");
 	$('.searchView').html("Movie History >");
 	switch (buttonValue) {
@@ -129,17 +129,41 @@ $('.btn-group').click(function(event) {
 			console.log(buttonValue);
 			break;
 		case "unwatched": 
+			readFirebase.getMovies(currentUser).then((movieData)=>{
+				for (var movie in movieData){
+					if (movieData[movie].watchlist === true){
+						movieDataArray.push(movieData[movie]);
+					}	
+				}
+				printer.printCards(movieDataArray);	
+			});
 			$('.unwatched').removeClass("hidden");
 			$('.searchView').html("Movie History > Unwatched");
 			console.log(buttonValue);
 			break;
-		case "watched": 
+		case "watched":
+			readFirebase.getMovies(currentUser).then((movieData)=>{
+				console.log("moviedata", movieData);
+				for (var movie in movieData){
+					if (movieData[movie].watched === true){
+						movieDataArray.push(movieData[movie]);
+						console.log("movieDataArray", movieDataArray);
+					}
+				}
+				printer.printCards(movieDataArray);	
+			});
 			$('.watched').removeClass("hidden");
 			$('.searchView').html("Movie History > Watched");
 			console.log(buttonValue);
 			break;
-	}
+				// var thisVar = $.each(movieData, function(movie, watched) {
+				// console.log("thisVar");
+	}		
+	
+
+
 });
+
 
 $("#slider").change((event)=>{
 	console.log($("#slider").val()); //this line will be replaced with a function that filters movies by rating
@@ -183,7 +207,6 @@ $('.form-control').keyup(function(event) {
    }
 
 });
-//need to attach user id variable here
 /* 
 
 This function adds movies to the user's watched-list within firebase and changes the 
@@ -248,24 +271,6 @@ $(document).on("click", ".delete", (function(event) {
 
 }));
 
-
-/*
-
-Listens for when the user wants to sign out of their account, sign up, 
-or a different user would like to sign in.
-*/
-
-$('.login-user').click(function(event) {
-	createUser.logIn();
-});
-
-$('.logout-user').click(function(event) {
-	createUser.logOut();
-});
-
-$('.get-user').click(function(event) {
-	createUser.getUser();
-});
 
 
 
