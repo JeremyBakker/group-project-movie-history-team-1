@@ -43,8 +43,8 @@ function rateMovie() {
             movieTarget[0].watchlist = false;
             console.log('movieTarget:', movieTarget);
             console.log("movieTarget Key", movieTarget.key);
-            updateUser.deleteMovie(movieTarget[0], movieData.identifier);
-            updateUser.addMovie(movieTarget[0]);
+            updateUser.deleteMovie(movieTarget[1], movieData.identifier);
+            updateUser.editMovie(movieTarget[0], movieData.identifier);
             });
         }
     });
@@ -82,7 +82,7 @@ function printCards(movies) {
                 $(".container").empty();
                 $(".container").append(`<section class="row">${cards}</section>`);
             } 
-            else if (counter % 3 === 0 && counter > 3) {
+            else if (counter % 3 === 0) {
             $(".container").append(`<section class="row">${cards}</section>`);
             cards = ""; 
            }

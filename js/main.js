@@ -144,7 +144,7 @@ $('.btn-group').click(function(event) {
 $("#slider").change((event)=>{
 	console.log($("#slider").val()); //this line will be replaced with a function that filters movies by rating
 	// console.log("user", movie.user);
-	readFirebase.getMovies("zJ4pWxJ5sNW81EQkDPoWgCxLNZo1").then((movieData)=>{
+	readFirebase.getMovies(createUser.getUser()).then((movieData)=>{
 		let movieArray = [];
 		console.log("movieData in slider", movieData);
 		for (let movies in movieData) {

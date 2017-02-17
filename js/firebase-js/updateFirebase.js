@@ -28,17 +28,17 @@ function deleteMovie(movieFormObj, movieFormObjID) {
     });
 }
 
-// function editMovie(movieFormObj, movieFormObjID) {
-//     return new Promise( function(resolve, reject){
-//         $.ajax({
-//             url: `https://group-project-b2ed0.firebaseio.com/movies/${movieFormObjID}.json`,
-//             type: 'PUT',
-//             data: JSON.stringify(movieFormObj)
-//         }).done( function(){
-//             resolve();
-//         });
-//     });
-// }
+function editMovie(movieFormObj, movieFormObjID) {
+    return new Promise( function(resolve, reject){
+        $.ajax({
+            url: `https://group-project-b2ed0.firebaseio.com/movies/${movieFormObjID}.json`,
+            type: 'PUT',
+            data: JSON.stringify(movieFormObj)
+        }).done( function(){
+            resolve();
+        });
+    });
+}
 
 // function getMovie(id){
 
@@ -69,4 +69,4 @@ function deleteMovie(movieFormObj, movieFormObjID) {
 // 	});
 // }
 
-module.exports = {addMovie, deleteMovie};
+module.exports = {addMovie, deleteMovie, editMovie};
